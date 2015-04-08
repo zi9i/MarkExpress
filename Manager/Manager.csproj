@@ -34,7 +34,13 @@
       <HintPath>..\MarkExpress\packages\EntityFramework.5.0.0\lib\net45\EntityFramework.dll</HintPath>
     </Reference>
     <Reference Include="MetroFramework">
-      <HintPath>..\..\..\Visual Studio 2013\Projects\MetroNugget\packages\MetroModernUI.1.3.0.0\lib\net\MetroFramework.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\metro\MetroFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="MetroFramework.Design">
+      <HintPath>..\..\..\..\..\..\metro\MetroFramework.Design.dll</HintPath>
+    </Reference>
+    <Reference Include="MetroFramework.Fonts">
+      <HintPath>..\..\..\..\..\..\metro\MetroFramework.Fonts.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
@@ -113,6 +119,12 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StudentManager.cs" />
     <Compile Include="TeacherManagement.cs" />
+    <Compile Include="UserControlAllMatieres.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserControlAllMatieres.Designer.cs">
+      <DependentUpon>UserControlAllMatieres.cs</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <EntityDeploy Include="GNote.edmx">
@@ -146,6 +158,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="ctrlEtudiants.resx">
       <DependentUpon>ctrlEtudiants.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserControlAllMatieres.resx">
+      <DependentUpon>UserControlAllMatieres.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
