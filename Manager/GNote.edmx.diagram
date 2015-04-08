@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="c471646b48704a81b22147b62d4067f6" Name="Diagram1">
+        <EntityTypeShape EntityType="GNoteModel.Admin" Width="1.5" PointX="0.75" PointY="6.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="GNoteModel.Enseignant" Width="1.5" PointX="1" PointY="1.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="GNoteModel.Epreuve" Width="1.5" PointX="5.25" PointY="5.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="GNoteModel.Etudiant" Width="1.5" PointX="3.25" PointY="8.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="GNoteModel.etudier" Width="1.5" PointX="9" PointY="2.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="GNoteModel.inscription" Width="1.5" PointX="5.25" PointY="8.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="GNoteModel.Matiere" Width="1.5" PointX="2.875" PointY="2.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="GNoteModel.Module" Width="1.5" PointX="6.25" PointY="2.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="GNoteModel.Niveau" Width="1.5" PointX="4.625" PointY="0.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="GNoteModel.Note" Width="1.5" PointX="7.5" PointY="5.75" IsExpanded="true" />
+        <AssociationConnector Association="GNoteModel.FK_MATIERE_AFFECTE_ENSEIGNA" ManuallyRouted="false" />
+        <AssociationConnector Association="GNoteModel.FK_MODULE_RESPONSAB_ENSEIGNA" ManuallyRouted="false" />
+        <AssociationConnector Association="GNoteModel.FK_EPREUVE_CORRESPON_MATIERE" ManuallyRouted="false" />
+        <AssociationConnector Association="GNoteModel.FK_NOTE_PASSER_EPREUVE" ManuallyRouted="false" />
+        <AssociationConnector Association="GNoteModel.FK_INSCRIPT_FAIT_ETUDIANT" ManuallyRouted="false" />
+        <AssociationConnector Association="GNoteModel.FK_ETUDIER_ETUDIER_INSCRIPT" ManuallyRouted="false" />
+        <AssociationConnector Association="GNoteModel.FK_ETUDIER_ETUDIER_MODULE" ManuallyRouted="false" />
+        <AssociationConnector Association="GNoteModel.FK_INSCRIPT_APPARTIEN_NIVEAU" ManuallyRouted="false" />
+        <AssociationConnector Association="GNoteModel.FK_NOTE_PASSER_INSCRIPT" ManuallyRouted="false" />
+        <AssociationConnector Association="GNoteModel.FK_MATIERE_INCLUT_MODULE" ManuallyRouted="false" />
+        <AssociationConnector Association="GNoteModel.FK_MODULE_CONTIENT_NIVEAU" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

@@ -1,0 +1,775 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="GNoteModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Admin">
+          <Key>
+            <PropertyRef Name="IdAdmin" />
+          </Key>
+          <Property Name="IdAdmin" Type="int" Nullable="false" />
+          <Property Name="NomAdmin" Type="varchar" MaxLength="254" />
+          <Property Name="PrenomAdmin" Type="varchar" MaxLength="254" />
+          <Property Name="LoginAdmin" Type="varchar" MaxLength="254" />
+          <Property Name="PasswordAdmin" Type="varchar" MaxLength="254" />
+        </EntityType>
+        <EntityType Name="Enseignant">
+          <Key>
+            <PropertyRef Name="Matricule" />
+          </Key>
+          <Property Name="Matricule" Type="varchar" MaxLength="254" Nullable="false" />
+          <Property Name="CIN" Type="varchar" MaxLength="254" Nullable="false" />
+          <Property Name="Login" Type="varchar" MaxLength="254" />
+          <Property Name="Password" Type="varchar" MaxLength="254" />
+          <Property Name="Nom" Type="varchar" MaxLength="254" />
+          <Property Name="Prenom" Type="varchar" MaxLength="254" />
+          <Property Name="Email" Type="varchar" MaxLength="254" />
+          <Property Name="DateNaissance" Type="datetime" />
+          <Property Name="Adresse" Type="varchar" MaxLength="254" />
+          <Property Name="Telephone" Type="varchar" MaxLength="254" />
+        </EntityType>
+        <EntityType Name="Epreuve">
+          <Key>
+            <PropertyRef Name="IdEpreuve" />
+          </Key>
+          <Property Name="IdEpreuve" Type="int" Nullable="false" />
+          <Property Name="IdModule" Type="int" Nullable="false" />
+          <Property Name="idMatiere" Type="int" Nullable="false" />
+          <Property Name="CoefEpreuve" Type="float" />
+          <Property Name="Rang" Type="float" />
+          <Property Name="Type" Type="varchar" MaxLength="254" />
+          <Property Name="File" Type="tinyint" />
+        </EntityType>
+        <EntityType Name="Etudiant">
+          <Key>
+            <PropertyRef Name="CNE" />
+          </Key>
+          <Property Name="CNE" Type="varchar" MaxLength="254" Nullable="false" />
+          <Property Name="CIN" Type="varchar" MaxLength="254" Nullable="false" />
+          <Property Name="Photo" Type="tinyint" />
+          <Property Name="Nom" Type="varchar" MaxLength="254" />
+          <Property Name="Prenom" Type="varchar" MaxLength="254" />
+          <Property Name="Email" Type="varchar" MaxLength="254" />
+          <Property Name="DateNaissance" Type="datetime" />
+          <Property Name="Adresse" Type="varchar" MaxLength="254" />
+          <Property Name="Telephone" Type="varchar" MaxLength="254" />
+        </EntityType>
+        <EntityType Name="etudier">
+          <Key>
+            <PropertyRef Name="IdModule" />
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="IdModule" Type="int" Nullable="false" />
+          <Property Name="id" Type="int" Nullable="false" />
+          <Property Name="noteModule" Type="float" />
+        </EntityType>
+        <EntityType Name="inscription">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IdNiveau" Type="int" />
+          <Property Name="CNE" Type="varchar" MaxLength="254" Nullable="false" />
+          <Property Name="AnneeUni" Type="varchar" MaxLength="254" Nullable="false" />
+          <Property Name="Moyenne" Type="float" />
+        </EntityType>
+        <EntityType Name="Matiere">
+          <Key>
+            <PropertyRef Name="IdModule" />
+            <PropertyRef Name="idMatiere" />
+          </Key>
+          <Property Name="IdModule" Type="int" Nullable="false" />
+          <Property Name="idMatiere" Type="int" Nullable="false" />
+          <Property Name="Matricule" Type="varchar" MaxLength="254" Nullable="false" />
+          <Property Name="NomMatiere" Type="varchar" MaxLength="254" />
+          <Property Name="CoefMatiere" Type="float" />
+        </EntityType>
+        <EntityType Name="Module">
+          <Key>
+            <PropertyRef Name="IdModule" />
+          </Key>
+          <Property Name="IdModule" Type="int" Nullable="false" />
+          <Property Name="IdNiveau" Type="int" Nullable="false" />
+          <Property Name="Matricule" Type="varchar" MaxLength="254" Nullable="false" />
+          <Property Name="NomModule" Type="varchar" MaxLength="254" />
+          <Property Name="NbreHeures" Type="int" />
+          <Property Name="moyenneV" Type="int" />
+        </EntityType>
+        <EntityType Name="Niveau">
+          <Key>
+            <PropertyRef Name="IdNiveau" />
+          </Key>
+          <Property Name="IdNiveau" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Libelle" Type="varchar" MaxLength="254" />
+        </EntityType>
+        <EntityType Name="Note">
+          <Key>
+            <PropertyRef Name="id" />
+            <PropertyRef Name="IdEpreuve" />
+          </Key>
+          <Property Name="id" Type="int" Nullable="false" />
+          <Property Name="IdEpreuve" Type="int" Nullable="false" />
+          <Property Name="Note" Type="float" />
+        </EntityType>
+        <Association Name="FK_EPREUVE_CORRESPON_MATIERE">
+          <End Role="Matiere" Type="Self.Matiere" Multiplicity="1" />
+          <End Role="Epreuve" Type="Self.Epreuve" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Matiere">
+              <PropertyRef Name="IdModule" />
+              <PropertyRef Name="idMatiere" />
+            </Principal>
+            <Dependent Role="Epreuve">
+              <PropertyRef Name="IdModule" />
+              <PropertyRef Name="idMatiere" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ETUDIER_ETUDIER_INSCRIPT">
+          <End Role="inscription" Type="Self.inscription" Multiplicity="1" />
+          <End Role="etudier" Type="Self.etudier" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="inscription">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="etudier">
+              <PropertyRef Name="id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ETUDIER_ETUDIER_MODULE">
+          <End Role="Module" Type="Self.Module" Multiplicity="1" />
+          <End Role="etudier" Type="Self.etudier" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Module">
+              <PropertyRef Name="IdModule" />
+            </Principal>
+            <Dependent Role="etudier">
+              <PropertyRef Name="IdModule" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_INSCRIPT_APPARTIEN_NIVEAU">
+          <End Role="Niveau" Type="Self.Niveau" Multiplicity="0..1" />
+          <End Role="inscription" Type="Self.inscription" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Niveau">
+              <PropertyRef Name="IdNiveau" />
+            </Principal>
+            <Dependent Role="inscription">
+              <PropertyRef Name="IdNiveau" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_INSCRIPT_FAIT_ETUDIANT">
+          <End Role="Etudiant" Type="Self.Etudiant" Multiplicity="1" />
+          <End Role="inscription" Type="Self.inscription" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Etudiant">
+              <PropertyRef Name="CNE" />
+            </Principal>
+            <Dependent Role="inscription">
+              <PropertyRef Name="CNE" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MATIERE_AFFECTE_ENSEIGNA">
+          <End Role="Enseignant" Type="Self.Enseignant" Multiplicity="1" />
+          <End Role="Matiere" Type="Self.Matiere" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Enseignant">
+              <PropertyRef Name="Matricule" />
+            </Principal>
+            <Dependent Role="Matiere">
+              <PropertyRef Name="Matricule" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MATIERE_INCLUT_MODULE">
+          <End Role="Module" Type="Self.Module" Multiplicity="1" />
+          <End Role="Matiere" Type="Self.Matiere" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Module">
+              <PropertyRef Name="IdModule" />
+            </Principal>
+            <Dependent Role="Matiere">
+              <PropertyRef Name="IdModule" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MODULE_CONTIENT_NIVEAU">
+          <End Role="Niveau" Type="Self.Niveau" Multiplicity="1" />
+          <End Role="Module" Type="Self.Module" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Niveau">
+              <PropertyRef Name="IdNiveau" />
+            </Principal>
+            <Dependent Role="Module">
+              <PropertyRef Name="IdNiveau" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MODULE_RESPONSAB_ENSEIGNA">
+          <End Role="Enseignant" Type="Self.Enseignant" Multiplicity="1" />
+          <End Role="Module" Type="Self.Module" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Enseignant">
+              <PropertyRef Name="Matricule" />
+            </Principal>
+            <Dependent Role="Module">
+              <PropertyRef Name="Matricule" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_NOTE_PASSER_EPREUVE">
+          <End Role="Epreuve" Type="Self.Epreuve" Multiplicity="1" />
+          <End Role="Note" Type="Self.Note" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Epreuve">
+              <PropertyRef Name="IdEpreuve" />
+            </Principal>
+            <Dependent Role="Note">
+              <PropertyRef Name="IdEpreuve" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_NOTE_PASSER_INSCRIPT">
+          <End Role="inscription" Type="Self.inscription" Multiplicity="1" />
+          <End Role="Note" Type="Self.Note" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="inscription">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Note">
+              <PropertyRef Name="id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="GNoteModelStoreContainer">
+          <EntitySet Name="Admin" EntityType="Self.Admin" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Enseignant" EntityType="Self.Enseignant" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Epreuve" EntityType="Self.Epreuve" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Etudiant" EntityType="Self.Etudiant" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="etudier" EntityType="Self.etudier" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="inscription" EntityType="Self.inscription" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Matiere" EntityType="Self.Matiere" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Module" EntityType="Self.Module" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Niveau" EntityType="Self.Niveau" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Note" EntityType="Self.Note" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_EPREUVE_CORRESPON_MATIERE" Association="Self.FK_EPREUVE_CORRESPON_MATIERE">
+            <End Role="Matiere" EntitySet="Matiere" />
+            <End Role="Epreuve" EntitySet="Epreuve" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ETUDIER_ETUDIER_INSCRIPT" Association="Self.FK_ETUDIER_ETUDIER_INSCRIPT">
+            <End Role="inscription" EntitySet="inscription" />
+            <End Role="etudier" EntitySet="etudier" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ETUDIER_ETUDIER_MODULE" Association="Self.FK_ETUDIER_ETUDIER_MODULE">
+            <End Role="Module" EntitySet="Module" />
+            <End Role="etudier" EntitySet="etudier" />
+          </AssociationSet>
+          <AssociationSet Name="FK_INSCRIPT_APPARTIEN_NIVEAU" Association="Self.FK_INSCRIPT_APPARTIEN_NIVEAU">
+            <End Role="Niveau" EntitySet="Niveau" />
+            <End Role="inscription" EntitySet="inscription" />
+          </AssociationSet>
+          <AssociationSet Name="FK_INSCRIPT_FAIT_ETUDIANT" Association="Self.FK_INSCRIPT_FAIT_ETUDIANT">
+            <End Role="Etudiant" EntitySet="Etudiant" />
+            <End Role="inscription" EntitySet="inscription" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MATIERE_AFFECTE_ENSEIGNA" Association="Self.FK_MATIERE_AFFECTE_ENSEIGNA">
+            <End Role="Enseignant" EntitySet="Enseignant" />
+            <End Role="Matiere" EntitySet="Matiere" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MATIERE_INCLUT_MODULE" Association="Self.FK_MATIERE_INCLUT_MODULE">
+            <End Role="Module" EntitySet="Module" />
+            <End Role="Matiere" EntitySet="Matiere" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MODULE_CONTIENT_NIVEAU" Association="Self.FK_MODULE_CONTIENT_NIVEAU">
+            <End Role="Niveau" EntitySet="Niveau" />
+            <End Role="Module" EntitySet="Module" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MODULE_RESPONSAB_ENSEIGNA" Association="Self.FK_MODULE_RESPONSAB_ENSEIGNA">
+            <End Role="Enseignant" EntitySet="Enseignant" />
+            <End Role="Module" EntitySet="Module" />
+          </AssociationSet>
+          <AssociationSet Name="FK_NOTE_PASSER_EPREUVE" Association="Self.FK_NOTE_PASSER_EPREUVE">
+            <End Role="Epreuve" EntitySet="Epreuve" />
+            <End Role="Note" EntitySet="Note" />
+          </AssociationSet>
+          <AssociationSet Name="FK_NOTE_PASSER_INSCRIPT" Association="Self.FK_NOTE_PASSER_INSCRIPT">
+            <End Role="inscription" EntitySet="inscription" />
+            <End Role="Note" EntitySet="Note" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="GNoteModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Admin">
+          <Key>
+            <PropertyRef Name="IdAdmin" />
+          </Key>
+          <Property Name="IdAdmin" Type="Int32" Nullable="false" />
+          <Property Name="NomAdmin" Type="String" MaxLength="254" FixedLength="false" Unicode="false" />
+          <Property Name="PrenomAdmin" Type="String" MaxLength="254" FixedLength="false" Unicode="false" />
+          <Property Name="LoginAdmin" Type="String" MaxLength="254" FixedLength="false" Unicode="false" />
+          <Property Name="PasswordAdmin" Type="String" MaxLength="254" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="Enseignant">
+          <Key>
+            <PropertyRef Name="Matricule" />
+          </Key>
+          <Property Name="Matricule" Type="String" MaxLength="254" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="CIN" Type="String" MaxLength="254" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Login" Type="String" MaxLength="254" FixedLength="false" Unicode="false" />
+          <Property Name="Password" Type="String" MaxLength="254" FixedLength="false" Unicode="false" />
+          <Property Name="Nom" Type="String" MaxLength="254" FixedLength="false" Unicode="false" />
+          <Property Name="Prenom" Type="String" MaxLength="254" FixedLength="false" Unicode="false" />
+          <Property Name="Email" Type="String" MaxLength="254" FixedLength="false" Unicode="false" />
+          <Property Name="DateNaissance" Type="DateTime" Precision="3" />
+          <Property Name="Adresse" Type="String" MaxLength="254" FixedLength="false" Unicode="false" />
+          <Property Name="Telephone" Type="String" MaxLength="254" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Matiere" Relationship="Self.FK_MATIERE_AFFECTE_ENSEIGNA" FromRole="Enseignant" ToRole="Matiere" />
+          <NavigationProperty Name="Module" Relationship="Self.FK_MODULE_RESPONSAB_ENSEIGNA" FromRole="Enseignant" ToRole="Module" />
+        </EntityType>
+        <EntityType Name="Epreuve">
+          <Key>
+            <PropertyRef Name="IdEpreuve" />
+          </Key>
+          <Property Name="IdEpreuve" Type="Int32" Nullable="false" />
+          <Property Name="IdModule" Type="Int32" Nullable="false" />
+          <Property Name="idMatiere" Type="Int32" Nullable="false" />
+          <Property Name="CoefEpreuve" Type="Double" />
+          <Property Name="Rang" Type="Double" />
+          <Property Name="Type" Type="String" MaxLength="254" FixedLength="false" Unicode="false" />
+          <Property Name="File" Type="Byte" />
+          <NavigationProperty Name="Matiere" Relationship="Self.FK_EPREUVE_CORRESPON_MATIERE" FromRole="Epreuve" ToRole="Matiere" />
+          <NavigationProperty Name="Note" Relationship="Self.FK_NOTE_PASSER_EPREUVE" FromRole="Epreuve" ToRole="Note" />
+        </EntityType>
+        <EntityType Name="Etudiant">
+          <Key>
+            <PropertyRef Name="CNE" />
+          </Key>
+          <Property Name="CNE" Type="String" MaxLength="254" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="CIN" Type="String" MaxLength="254" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Photo" Type="Byte" />
+          <Property Name="Nom" Type="String" MaxLength="254" FixedLength="false" Unicode="false" />
+          <Property Name="Prenom" Type="String" MaxLength="254" FixedLength="false" Unicode="false" />
+          <Property Name="Email" Type="String" MaxLength="254" FixedLength="false" Unicode="false" />
+          <Property Name="DateNaissance" Type="DateTime" Precision="3" />
+          <Property Name="Adresse" Type="String" MaxLength="254" FixedLength="false" Unicode="false" />
+          <Property Name="Telephone" Type="String" MaxLength="254" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="inscription" Relationship="Self.FK_INSCRIPT_FAIT_ETUDIANT" FromRole="Etudiant" ToRole="inscription" />
+        </EntityType>
+        <EntityType Name="etudier">
+          <Key>
+            <PropertyRef Name="IdModule" />
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="IdModule" Type="Int32" Nullable="false" />
+          <Property Name="id" Type="Int32" Nullable="false" />
+          <Property Name="noteModule" Type="Double" />
+          <NavigationProperty Name="inscription" Relationship="Self.FK_ETUDIER_ETUDIER_INSCRIPT" FromRole="etudier" ToRole="inscription" />
+          <NavigationProperty Name="Module" Relationship="Self.FK_ETUDIER_ETUDIER_MODULE" FromRole="etudier" ToRole="Module" />
+        </EntityType>
+        <EntityType Name="inscription">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IdNiveau" Type="Int32" />
+          <Property Name="CNE" Type="String" MaxLength="254" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="AnneeUni" Type="String" MaxLength="254" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Moyenne" Type="Double" />
+          <NavigationProperty Name="Etudiant" Relationship="Self.FK_INSCRIPT_FAIT_ETUDIANT" FromRole="inscription" ToRole="Etudiant" />
+          <NavigationProperty Name="etudier" Relationship="Self.FK_ETUDIER_ETUDIER_INSCRIPT" FromRole="inscription" ToRole="etudier" />
+          <NavigationProperty Name="Niveau" Relationship="Self.FK_INSCRIPT_APPARTIEN_NIVEAU" FromRole="inscription" ToRole="Niveau" />
+          <NavigationProperty Name="Note" Relationship="Self.FK_NOTE_PASSER_INSCRIPT" FromRole="inscription" ToRole="Note" />
+        </EntityType>
+        <EntityType Name="Matiere">
+          <Key>
+            <PropertyRef Name="IdModule" />
+            <PropertyRef Name="idMatiere" />
+          </Key>
+          <Property Name="IdModule" Type="Int32" Nullable="false" />
+          <Property Name="idMatiere" Type="Int32" Nullable="false" />
+          <Property Name="Matricule" Type="String" MaxLength="254" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="NomMatiere" Type="String" MaxLength="254" FixedLength="false" Unicode="false" />
+          <Property Name="CoefMatiere" Type="Double" />
+          <NavigationProperty Name="Enseignant" Relationship="Self.FK_MATIERE_AFFECTE_ENSEIGNA" FromRole="Matiere" ToRole="Enseignant" />
+          <NavigationProperty Name="Epreuve" Relationship="Self.FK_EPREUVE_CORRESPON_MATIERE" FromRole="Matiere" ToRole="Epreuve" />
+          <NavigationProperty Name="Module" Relationship="Self.FK_MATIERE_INCLUT_MODULE" FromRole="Matiere" ToRole="Module" />
+        </EntityType>
+        <EntityType Name="Module">
+          <Key>
+            <PropertyRef Name="IdModule" />
+          </Key>
+          <Property Name="IdModule" Type="Int32" Nullable="false" />
+          <Property Name="IdNiveau" Type="Int32" Nullable="false" />
+          <Property Name="Matricule" Type="String" MaxLength="254" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="NomModule" Type="String" MaxLength="254" FixedLength="false" Unicode="false" />
+          <Property Name="NbreHeures" Type="Int32" />
+          <Property Name="moyenneV" Type="Int32" />
+          <NavigationProperty Name="Enseignant" Relationship="Self.FK_MODULE_RESPONSAB_ENSEIGNA" FromRole="Module" ToRole="Enseignant" />
+          <NavigationProperty Name="etudier" Relationship="Self.FK_ETUDIER_ETUDIER_MODULE" FromRole="Module" ToRole="etudier" />
+          <NavigationProperty Name="Matiere" Relationship="Self.FK_MATIERE_INCLUT_MODULE" FromRole="Module" ToRole="Matiere" />
+          <NavigationProperty Name="Niveau" Relationship="Self.FK_MODULE_CONTIENT_NIVEAU" FromRole="Module" ToRole="Niveau" />
+        </EntityType>
+        <EntityType Name="Niveau">
+          <Key>
+            <PropertyRef Name="IdNiveau" />
+          </Key>
+          <Property Name="IdNiveau" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Libelle" Type="String" MaxLength="254" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="inscription" Relationship="Self.FK_INSCRIPT_APPARTIEN_NIVEAU" FromRole="Niveau" ToRole="inscription" />
+          <NavigationProperty Name="Module" Relationship="Self.FK_MODULE_CONTIENT_NIVEAU" FromRole="Niveau" ToRole="Module" />
+        </EntityType>
+        <EntityType Name="Note">
+          <Key>
+            <PropertyRef Name="id" />
+            <PropertyRef Name="IdEpreuve" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" />
+          <Property Name="IdEpreuve" Type="Int32" Nullable="false" />
+          <Property Name="Note1" Type="Double" />
+          <NavigationProperty Name="Epreuve" Relationship="Self.FK_NOTE_PASSER_EPREUVE" FromRole="Note" ToRole="Epreuve" />
+          <NavigationProperty Name="inscription" Relationship="Self.FK_NOTE_PASSER_INSCRIPT" FromRole="Note" ToRole="inscription" />
+        </EntityType>
+        <Association Name="FK_MATIERE_AFFECTE_ENSEIGNA">
+          <End Role="Enseignant" Type="Self.Enseignant" Multiplicity="1" />
+          <End Role="Matiere" Type="Self.Matiere" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Enseignant">
+              <PropertyRef Name="Matricule" />
+            </Principal>
+            <Dependent Role="Matiere">
+              <PropertyRef Name="Matricule" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MODULE_RESPONSAB_ENSEIGNA">
+          <End Role="Enseignant" Type="Self.Enseignant" Multiplicity="1" />
+          <End Role="Module" Type="Self.Module" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Enseignant">
+              <PropertyRef Name="Matricule" />
+            </Principal>
+            <Dependent Role="Module">
+              <PropertyRef Name="Matricule" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_EPREUVE_CORRESPON_MATIERE">
+          <End Role="Matiere" Type="Self.Matiere" Multiplicity="1" />
+          <End Role="Epreuve" Type="Self.Epreuve" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Matiere">
+              <PropertyRef Name="IdModule" />
+              <PropertyRef Name="idMatiere" />
+            </Principal>
+            <Dependent Role="Epreuve">
+              <PropertyRef Name="IdModule" />
+              <PropertyRef Name="idMatiere" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_NOTE_PASSER_EPREUVE">
+          <End Role="Epreuve" Type="Self.Epreuve" Multiplicity="1" />
+          <End Role="Note" Type="Self.Note" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Epreuve">
+              <PropertyRef Name="IdEpreuve" />
+            </Principal>
+            <Dependent Role="Note">
+              <PropertyRef Name="IdEpreuve" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_INSCRIPT_FAIT_ETUDIANT">
+          <End Role="Etudiant" Type="Self.Etudiant" Multiplicity="1" />
+          <End Role="inscription" Type="Self.inscription" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Etudiant">
+              <PropertyRef Name="CNE" />
+            </Principal>
+            <Dependent Role="inscription">
+              <PropertyRef Name="CNE" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ETUDIER_ETUDIER_INSCRIPT">
+          <End Role="inscription" Type="Self.inscription" Multiplicity="1" />
+          <End Role="etudier" Type="Self.etudier" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="inscription">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="etudier">
+              <PropertyRef Name="id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ETUDIER_ETUDIER_MODULE">
+          <End Role="Module" Type="Self.Module" Multiplicity="1" />
+          <End Role="etudier" Type="Self.etudier" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Module">
+              <PropertyRef Name="IdModule" />
+            </Principal>
+            <Dependent Role="etudier">
+              <PropertyRef Name="IdModule" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_INSCRIPT_APPARTIEN_NIVEAU">
+          <End Role="Niveau" Type="Self.Niveau" Multiplicity="0..1" />
+          <End Role="inscription" Type="Self.inscription" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Niveau">
+              <PropertyRef Name="IdNiveau" />
+            </Principal>
+            <Dependent Role="inscription">
+              <PropertyRef Name="IdNiveau" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_NOTE_PASSER_INSCRIPT">
+          <End Role="inscription" Type="Self.inscription" Multiplicity="1" />
+          <End Role="Note" Type="Self.Note" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="inscription">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Note">
+              <PropertyRef Name="id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MATIERE_INCLUT_MODULE">
+          <End Role="Module" Type="Self.Module" Multiplicity="1" />
+          <End Role="Matiere" Type="Self.Matiere" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Module">
+              <PropertyRef Name="IdModule" />
+            </Principal>
+            <Dependent Role="Matiere">
+              <PropertyRef Name="IdModule" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MODULE_CONTIENT_NIVEAU">
+          <End Role="Niveau" Type="Self.Niveau" Multiplicity="1" />
+          <End Role="Module" Type="Self.Module" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Niveau">
+              <PropertyRef Name="IdNiveau" />
+            </Principal>
+            <Dependent Role="Module">
+              <PropertyRef Name="IdNiveau" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="GNoteEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Admin" EntityType="Self.Admin" />
+          <EntitySet Name="Enseignant" EntityType="Self.Enseignant" />
+          <EntitySet Name="Epreuve" EntityType="Self.Epreuve" />
+          <EntitySet Name="Etudiant" EntityType="Self.Etudiant" />
+          <EntitySet Name="etudier" EntityType="Self.etudier" />
+          <EntitySet Name="inscription" EntityType="Self.inscription" />
+          <EntitySet Name="Matiere" EntityType="Self.Matiere" />
+          <EntitySet Name="Module" EntityType="Self.Module" />
+          <EntitySet Name="Niveau" EntityType="Self.Niveau" />
+          <EntitySet Name="Note" EntityType="Self.Note" />
+          <AssociationSet Name="FK_MATIERE_AFFECTE_ENSEIGNA" Association="Self.FK_MATIERE_AFFECTE_ENSEIGNA">
+            <End Role="Enseignant" EntitySet="Enseignant" />
+            <End Role="Matiere" EntitySet="Matiere" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MODULE_RESPONSAB_ENSEIGNA" Association="Self.FK_MODULE_RESPONSAB_ENSEIGNA">
+            <End Role="Enseignant" EntitySet="Enseignant" />
+            <End Role="Module" EntitySet="Module" />
+          </AssociationSet>
+          <AssociationSet Name="FK_EPREUVE_CORRESPON_MATIERE" Association="Self.FK_EPREUVE_CORRESPON_MATIERE">
+            <End Role="Matiere" EntitySet="Matiere" />
+            <End Role="Epreuve" EntitySet="Epreuve" />
+          </AssociationSet>
+          <AssociationSet Name="FK_NOTE_PASSER_EPREUVE" Association="Self.FK_NOTE_PASSER_EPREUVE">
+            <End Role="Epreuve" EntitySet="Epreuve" />
+            <End Role="Note" EntitySet="Note" />
+          </AssociationSet>
+          <AssociationSet Name="FK_INSCRIPT_FAIT_ETUDIANT" Association="Self.FK_INSCRIPT_FAIT_ETUDIANT">
+            <End Role="Etudiant" EntitySet="Etudiant" />
+            <End Role="inscription" EntitySet="inscription" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ETUDIER_ETUDIER_INSCRIPT" Association="Self.FK_ETUDIER_ETUDIER_INSCRIPT">
+            <End Role="inscription" EntitySet="inscription" />
+            <End Role="etudier" EntitySet="etudier" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ETUDIER_ETUDIER_MODULE" Association="Self.FK_ETUDIER_ETUDIER_MODULE">
+            <End Role="Module" EntitySet="Module" />
+            <End Role="etudier" EntitySet="etudier" />
+          </AssociationSet>
+          <AssociationSet Name="FK_INSCRIPT_APPARTIEN_NIVEAU" Association="Self.FK_INSCRIPT_APPARTIEN_NIVEAU">
+            <End Role="Niveau" EntitySet="Niveau" />
+            <End Role="inscription" EntitySet="inscription" />
+          </AssociationSet>
+          <AssociationSet Name="FK_NOTE_PASSER_INSCRIPT" Association="Self.FK_NOTE_PASSER_INSCRIPT">
+            <End Role="inscription" EntitySet="inscription" />
+            <End Role="Note" EntitySet="Note" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MATIERE_INCLUT_MODULE" Association="Self.FK_MATIERE_INCLUT_MODULE">
+            <End Role="Module" EntitySet="Module" />
+            <End Role="Matiere" EntitySet="Matiere" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MODULE_CONTIENT_NIVEAU" Association="Self.FK_MODULE_CONTIENT_NIVEAU">
+            <End Role="Niveau" EntitySet="Niveau" />
+            <End Role="Module" EntitySet="Module" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="GNoteModelStoreContainer" CdmEntityContainer="GNoteEntities">
+          <EntitySetMapping Name="Admin">
+            <EntityTypeMapping TypeName="GNoteModel.Admin">
+              <MappingFragment StoreEntitySet="Admin">
+                <ScalarProperty Name="IdAdmin" ColumnName="IdAdmin" />
+                <ScalarProperty Name="NomAdmin" ColumnName="NomAdmin" />
+                <ScalarProperty Name="PrenomAdmin" ColumnName="PrenomAdmin" />
+                <ScalarProperty Name="LoginAdmin" ColumnName="LoginAdmin" />
+                <ScalarProperty Name="PasswordAdmin" ColumnName="PasswordAdmin" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Enseignant">
+            <EntityTypeMapping TypeName="GNoteModel.Enseignant">
+              <MappingFragment StoreEntitySet="Enseignant">
+                <ScalarProperty Name="Matricule" ColumnName="Matricule" />
+                <ScalarProperty Name="CIN" ColumnName="CIN" />
+                <ScalarProperty Name="Login" ColumnName="Login" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="Nom" ColumnName="Nom" />
+                <ScalarProperty Name="Prenom" ColumnName="Prenom" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="DateNaissance" ColumnName="DateNaissance" />
+                <ScalarProperty Name="Adresse" ColumnName="Adresse" />
+                <ScalarProperty Name="Telephone" ColumnName="Telephone" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Epreuve">
+            <EntityTypeMapping TypeName="GNoteModel.Epreuve">
+              <MappingFragment StoreEntitySet="Epreuve">
+                <ScalarProperty Name="IdEpreuve" ColumnName="IdEpreuve" />
+                <ScalarProperty Name="IdModule" ColumnName="IdModule" />
+                <ScalarProperty Name="idMatiere" ColumnName="idMatiere" />
+                <ScalarProperty Name="CoefEpreuve" ColumnName="CoefEpreuve" />
+                <ScalarProperty Name="Rang" ColumnName="Rang" />
+                <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="File" ColumnName="File" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Etudiant">
+            <EntityTypeMapping TypeName="GNoteModel.Etudiant">
+              <MappingFragment StoreEntitySet="Etudiant">
+                <ScalarProperty Name="CNE" ColumnName="CNE" />
+                <ScalarProperty Name="CIN" ColumnName="CIN" />
+                <ScalarProperty Name="Photo" ColumnName="Photo" />
+                <ScalarProperty Name="Nom" ColumnName="Nom" />
+                <ScalarProperty Name="Prenom" ColumnName="Prenom" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="DateNaissance" ColumnName="DateNaissance" />
+                <ScalarProperty Name="Adresse" ColumnName="Adresse" />
+                <ScalarProperty Name="Telephone" ColumnName="Telephone" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="etudier">
+            <EntityTypeMapping TypeName="GNoteModel.etudier">
+              <MappingFragment StoreEntitySet="etudier">
+                <ScalarProperty Name="IdModule" ColumnName="IdModule" />
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="noteModule" ColumnName="noteModule" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="inscription">
+            <EntityTypeMapping TypeName="GNoteModel.inscription">
+              <MappingFragment StoreEntitySet="inscription">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="IdNiveau" ColumnName="IdNiveau" />
+                <ScalarProperty Name="CNE" ColumnName="CNE" />
+                <ScalarProperty Name="AnneeUni" ColumnName="AnneeUni" />
+                <ScalarProperty Name="Moyenne" ColumnName="Moyenne" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Matiere">
+            <EntityTypeMapping TypeName="GNoteModel.Matiere">
+              <MappingFragment StoreEntitySet="Matiere">
+                <ScalarProperty Name="IdModule" ColumnName="IdModule" />
+                <ScalarProperty Name="idMatiere" ColumnName="idMatiere" />
+                <ScalarProperty Name="Matricule" ColumnName="Matricule" />
+                <ScalarProperty Name="NomMatiere" ColumnName="NomMatiere" />
+                <ScalarProperty Name="CoefMatiere" ColumnName="CoefMatiere" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Module">
+            <EntityTypeMapping TypeName="GNoteModel.Module">
+              <MappingFragment StoreEntitySet="Module">
+                <ScalarProperty Name="IdModule" ColumnName="IdModule" />
+                <ScalarProperty Name="IdNiveau" ColumnName="IdNiveau" />
+                <ScalarProperty Name="Matricule" ColumnName="Matricule" />
+                <ScalarProperty Name="NomModule" ColumnName="NomModule" />
+                <ScalarProperty Name="NbreHeures" ColumnName="NbreHeures" />
+                <ScalarProperty Name="moyenneV" ColumnName="moyenneV" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Niveau">
+            <EntityTypeMapping TypeName="GNoteModel.Niveau">
+              <MappingFragment StoreEntitySet="Niveau">
+                <ScalarProperty Name="IdNiveau" ColumnName="IdNiveau" />
+                <ScalarProperty Name="Libelle" ColumnName="Libelle" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Note">
+            <EntityTypeMapping TypeName="GNoteModel.Note">
+              <MappingFragment StoreEntitySet="Note">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="IdEpreuve" ColumnName="IdEpreuve" />
+                <ScalarProperty Name="Note1" ColumnName="Note" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="true" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Aucun" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
