@@ -12,9 +12,17 @@ namespace Manager
 {
     public partial class UserControlAllMatieres : UserControl
     {
+        MatiereManager MManager = new MatiereManager();
+        public void Actualiser()
+        {
+                GridMatieres.DataSource = MManager.ListerAllMatieres().ToList();
+        }
         public UserControlAllMatieres()
         {
             InitializeComponent();
+            Actualiser();
         }
+
+        
     }
 }
